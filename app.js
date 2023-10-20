@@ -8,10 +8,12 @@ const dotenv = require('dotenv');
 
 dotenv.config();
 const indexRouter = require('./routes/index');
+const authRouter = require('./routes/auth');
 
 const { sequelize } = require('./models'); 
 const passportConfig = require('./passport');
-const { index } = require('cheerio/lib/api/traversing');
+
+
 const app = express();
 passportConfig();
 app.set('port', process.env.PORT || 8010);
@@ -46,6 +48,9 @@ app.use(cookieParser(process.env.COOKIE_SECRET));
 app.use(sessionMiddleWare);
 app.use(passport.initialize());
 app.use(passport.session());
+
+app.use('/', indexRouter);
+app.use('/auth', authRouter);
 
 
 app.use((req, res, next) => {

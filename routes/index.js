@@ -3,6 +3,7 @@ const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 const { isLoggedIn, isNotLoggedIn } = require('../middlewares');
+const { renderMain, renderJoin, renderGood, createGood } = require('../controllers');
 
 const router = express.Router();
 
@@ -11,17 +12,17 @@ router.use((req, res, next) => {
     next();
 });
 
-router.get("/")
+router.get("/", renderMain);
 
-router.get("/join")
+router.get("/join", isNotLoggedIn, renderJoin);
 
-router.get("/good")
+router.get("/good", isLoggedIn, renderGood);
 
 try {
     fs.readdirSync('uploads');
 } catch (err) {
     console.error('uploads 폴더가 없어 uploads폴더 생성');
-    fs.mkdir('uploads');
+    fs.mkdirSync('uploads');
 }
 const upload = multer({
     storage: multer.diskStorage({
@@ -36,6 +37,6 @@ const upload = multer({
     limits: { fileSize: 5 * 1024 * 1024 },
 });
 
-router.post('/good');
+router.post('/good',isLoggedIn,upload.single('img'),createGood);
 
 module.exports = router;
