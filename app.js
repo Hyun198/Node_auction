@@ -7,9 +7,11 @@ const nunjucks = require('nunjucks');
 const dotenv = require('dotenv');
 
 dotenv.config();
+const indexRouter = require('./routes/index');
 
 const { sequelize } = require('./models'); 
 const passportConfig = require('./passport');
+const { index } = require('cheerio/lib/api/traversing');
 const app = express();
 passportConfig();
 app.set('port', process.env.PORT || 8010);
