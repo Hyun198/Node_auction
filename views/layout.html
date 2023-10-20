@@ -42,7 +42,7 @@
     </div>
     <script>
       window.onload = () => {
-        if (new URL(locatrion.href).searchparams.get("error")) {
+        if (new URL(location.href).searchparams.get("error")) {
           alert(new URL(location.href).searchParams.get("error"));
         }
       };
