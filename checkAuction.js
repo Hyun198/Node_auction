@@ -1,15 +1,6 @@
 const { scheduleJob } = require("node-schedule");
-const { Op, Sequelize } = require("sequelize");
-const { Good, Auction, User, sequelize } = require("./models");
-
-
-const Schedule = sequelize.define("Schedule", {
-  jobId: {
-    type: Sequelize.STRING,
-    primaryKey: true,
-  },
-  endAt: Sequelize.DATE,
-});
+const { Op } = require("sequelize");
+const { Good, Auction, User, sequelize,Schedule } = require("./models");
 
 
 module.exports = async () => {
