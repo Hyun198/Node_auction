@@ -1,6 +1,16 @@
 const { scheduleJob } = require("node-schedule");
-const { Op } = require("sequelize");
+const { Op, Sequelize } = require("sequelize");
 const { Good, Auction, User, sequelize } = require("./models");
+
+
+const Schedule = sequelize.define("Schedule", {
+  jobId: {
+    type: Sequelize.STRING,
+    primaryKey: true,
+  },
+  endAt: Sequelize.DATE,
+});
+
 
 module.exports = async () => {
   console.log("checkAuction");
@@ -14,6 +24,29 @@ module.exports = async () => {
         createdAt: { [Op.lte]: yesterday },
       },
     });
+
+    //서버 시작시 저장된 스케줄 정보 조회 후 설정
+    const storedSchedules = await Schedule.findAll();
+    storedSchedules.forEach((storedSchedule) => {
+      const job = scheduleJob(storedSchedule.jobId, async () => {
+        //스케줄러 실행 시 작업 실행
+        const t = await sequelize.transaction();
+        try {
+          await t.commit();
+
+        } catch (error) {
+          await t.rollback();
+        }
+      });
+      job.on("error", (err) => {
+        console.error("스케줄링 에러", err);
+      });
+      job.on("success", () => {
+        console.log("스케줄링 성공");
+      });
+    });
+
+
     targets.forEach(async (good) => {
       const t = await sequelize.transaction();
       try {
