@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{{title}}</title>
+    <meta name="viewport" content="width=device-width, user-scalable=no" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <link rel="stylesheet" href="/main.css" />
   </head>
   <body>
@@ -12,7 +13,7 @@
         <div class="profile">
           {% if user and user.id %}
           <div class="user-name">안녕하세요 {{user.nick}}님</div>
-          <div class="user-money">보유자산 : {{user.money}}원</div>
+          <div class="user-money">보유 자산: {{user.money}}원</div>
           <input type="hidden" id="my-id" value="user.id" />
           <a href="/auth/logout" id="logout" class="btn">로그아웃</a>
           <a href="/good" id="register" class="btn">상품 등록</a>
@@ -32,8 +33,8 @@
           {% endif %}
         </div>
         <footer>
-          Made by&nbsp;<a href="https://github.com/Hyun198" target="_blank"
-            >Hyun</a
+          Made by&nbsp;<a href="https://www.zerocho.com" target="_blank"
+            >ZeroCho</a
           >
         </footer>
         {% block good %} {% endblock %}
@@ -42,7 +43,7 @@
     </div>
     <script>
       window.onload = () => {
-        if (new URL(location.href).searchparams.get("error")) {
+        if (new URL(location.href).searchParams.get("error")) {
           alert(new URL(location.href).searchParams.get("error"));
         }
       };
