@@ -1,5 +1,4 @@
 const Sequelize = require('sequelize');
-const { sequelize } = require('.');
 
 class Schedule extends Sequelize.Model {
     static initiate(sequelize) {
