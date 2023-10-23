@@ -3,7 +3,7 @@ const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 const { isLoggedIn, isNotLoggedIn } = require('../middlewares');
-const { renderMain, renderJoin, renderGood, createGood, renderAuction, bid } = require('../controllers');
+const { renderMain, renderJoin, renderGood, createGood, renderAuction, bid , renderList} = require('../controllers');
 
 const router = express.Router();
 
@@ -17,6 +17,8 @@ router.get("/", renderMain);
 router.get("/join", isNotLoggedIn, renderJoin);
 
 router.get("/good", isLoggedIn, renderGood);
+
+router.get('/list', isLoggedIn, renderList);
 
 try {
     fs.readdirSync('uploads');
